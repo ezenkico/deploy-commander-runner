@@ -1,0 +1,10 @@
+.git
+**/*.md
+**/*_test.go
+.DS_Store
+.idea
+.vscode
+bin
+dist
+target
+node_modules
