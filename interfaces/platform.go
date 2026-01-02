@@ -1,10 +1,11 @@
-package platforms
+package interfaces
 
 import (
+	"context"
+
 	"github.com/ezenkico/deploy-commander/runner/models"
-	"github.com/google/uuid"
 )
 
 type Platform interface {
-	Run(job uuid.UUID, run uuid.UUID, metdata models.Metadata) error
+	Run(ctx context.Context, config models.Configuration) error
 }

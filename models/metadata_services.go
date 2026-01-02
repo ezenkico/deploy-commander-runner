@@ -14,8 +14,11 @@ type MetadataService struct {
 	// Identity helpers
 	Aliases *[]string `json:"aliases,omitempty"`
 
+	// A network group used to isolate services
+	NetworkGroups *[]string `json:"network_groups,omitempty"`
+
 	// runner | service
-	Role *string `json:"role,omitempty"`
+	Role *ServiceRole `json:"role,omitempty"`
 
 	// Dependency graph (keys reference other services)
 	DependsOn *[]string `json:"depends_on,omitempty"`
