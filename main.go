@@ -11,6 +11,8 @@ import (
 
 	"github.com/ezenkico/deploy-commander/runner/interfaces"
 	"github.com/ezenkico/deploy-commander/runner/models"
+	"github.com/ezenkico/deploy-commander/runner/services/agent"
+	"github.com/ezenkico/deploy-commander/runner/services/docker"
 )
 
 const configPath = "/run/config.json"
@@ -29,11 +31,10 @@ func loadConfiguration(path string) (models.Configuration, error) {
 	return cfg, nil
 }
 
-func selectPlatform(platform string) (interfaces.Platform, error) {
+func selectPlatform(platform string, comm *agent.AgentCommunication) (interfaces.Platform, error) {
 	switch platform {
-	// TODO: add cases later, e.g.
-	// case "docker":
-	//     return docker.New(...), nil
+	case "docker":
+		return docker.NewDockerPlatform(comm)
 	// case "k8s":
 	//     return k8s.New(...), nil
 	default:
@@ -50,7 +51,9 @@ func main() {
 		log.Fatal(err)
 	}
 
-	p, err := selectPlatform(cfg.Platform)
+	comm, err := agent.NewAgentCommunicationFromEnv()
+
+	p, err := selectPlatform(cfg.Platform, comm)
 	if err != nil {
 		log.Fatal(err)
 	}
